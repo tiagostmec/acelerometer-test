@@ -17,16 +17,16 @@ public:
     bool loadData();
     void calculateAngles();
     void saveResults(const std::string& outputFilename);
-    void printData();
     std::vector<double> getRollAngle() const { return rollAngles; }
     std::vector<double> getPitchAngle() const { return pitchAngles; }
+    std::vector<double> getTimeStamp() const { return TimeStamp; }
 
 private:
     std::string filename;
     std::vector<Measurement> measurements;
     std::vector<double> rollAngles;
     std::vector<double> pitchAngles;
-
+    std::vector<double> TimeStamp;
 };
 
 #endif // ACELEROMETRO_H

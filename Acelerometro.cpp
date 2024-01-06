@@ -1,7 +1,6 @@
 #include "Acelerometro.h"
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <cmath>
 
 Acelerometro::Acelerometro(const std::string& filename) : filename(filename) {}
@@ -32,31 +31,32 @@ bool Acelerometro::loadData() {
     std::cout << "Dados carregados com sucesso." << std::endl;
     return true;
 }
-void Acelerometro::printData() {
-    for (const auto& m : measurements) {
-        std::cout << "Time Stamp (ms): " << m.time_stamp_ms << ", "
-                  << "Accel X Axis: " << m.accel_x_axis << ", "
-                  << "Accel Y Axis: " << m.accel_y_axis << ", "
-                  << "Accel Z Axis: " << m.accel_z_axis << std::endl;
-    }
-}
 
 void Acelerometro::calculateAngles() {
     for (const auto& m : measurements) {
         // Convertendo as leituras do acelerômetro para g's (considerando um fator de escala apropriado)
-        // Aqui estou apenas assumindo que você tem um fator de escala. Adapte conforme sua necessidade.
-        double SCALE_FACTOR = 1; //Verificar o fator de escala
+        double SCALE_FACTOR = 1; //escala cedida no exericio de mg
         double G_px = static_cast<double>(m.accel_x_axis) * SCALE_FACTOR;
         double G_py = static_cast<double>(m.accel_y_axis) * SCALE_FACTOR;
         double G_pz = static_cast<double>(m.accel_z_axis) * SCALE_FACTOR;
+        double timestamp = m.time_stamp_ms;
+        double sign = 1;
+        double mi = 0.01;
 
-        // Calcular o ângulo de pitch (phi_xyz)
-        double rollAngle = atan(G_py / G_px) * 180.0 / M_PI;
+        // Calcular o ângulo de roll (phi_xyz)
+        if (G_pz >= 0){
+            sign = 1;
+        };
+        if (G_pz < 0){
+            sign = -1;
+        };
+        double rollAngle = atan(G_py / (sign*sqrt(G_pz*G_pz + mi*G_px))) * 180.0 / M_PI;
 
-        // Calcular o ângulo de roll (theta_xyz)
+        // Calcular o ângulo de pitch (theta_xyz)
         double pitchAngle = atan(-G_px / sqrt(G_py * G_py + G_pz * G_pz)) * 180.0 / M_PI;
         rollAngles.push_back(rollAngle);
         pitchAngles.push_back(pitchAngle);
+        TimeStamp.push_back(timestamp);
     }
 }
 
@@ -70,8 +70,9 @@ void Acelerometro::saveResults(const std::string& outputFilename) {
         }
 
         for (size_t i = 0; i < rollAngles.size(); ++i) {
-            outputFile << "Roll Angle " << i + 1 << ": " << rollAngles[i] << " graus" << std::endl;
-            outputFile << "Pitch Angle " << i + 1 << ": " << pitchAngles[i] << " graus" << std::endl;
+            outputFile << "TimeStamp " << ": " << TimeStamp[i] << " ms" << std::endl;
+            outputFile << "Roll Angle "  << ": " << rollAngles[i] << "°" << std::endl;
+            outputFile << "Pitch Angle "  << ": " << pitchAngles[i] << "°" << std::endl;
             outputFile << "---------------------" << std::endl;
         }
 

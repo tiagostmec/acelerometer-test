@@ -6,7 +6,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow())  // Aqui está a mudança
+    ui(new Ui::MainWindow())
 {
     ui->setupUi(this);
     connect(ui->selectLogFileButton, &QPushButton::clicked, this, &MainWindow::selectLogFileButtonClicked);

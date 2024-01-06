@@ -81,8 +81,8 @@ public:
         selectLogFileButton->setText(QApplication::translate("MainWindow", "log", nullptr));
         selectOutputFileButton->setText(QApplication::translate("MainWindow", "file save", nullptr));
         startButton->setText(QApplication::translate("MainWindow", "start", nullptr));
-        label->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
-        label_2->setText(QApplication::translate("MainWindow", "TextLabel", nullptr));
+        label->setText(QApplication::translate("MainWindow", "LOAD_PATH", nullptr));
+        label_2->setText(QApplication::translate("MainWindow", "SAVE_PATH", nullptr));
         menuMainWindow->setTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
     } // retranslateUi
 
