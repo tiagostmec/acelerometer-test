@@ -45,16 +45,16 @@ void Acelerometro::calculateAngles() {
     for (const auto& m : measurements) {
         // Convertendo as leituras do acelerômetro para g's (considerando um fator de escala apropriado)
         // Aqui estou apenas assumindo que você tem um fator de escala. Adapte conforme sua necessidade.
-        double SCALE_FACTOR = 1;
+        double SCALE_FACTOR = 1; //Verificar o fator de escala
         double G_px = static_cast<double>(m.accel_x_axis) * SCALE_FACTOR;
         double G_py = static_cast<double>(m.accel_y_axis) * SCALE_FACTOR;
         double G_pz = static_cast<double>(m.accel_z_axis) * SCALE_FACTOR;
 
         // Calcular o ângulo de pitch (phi_xyz)
-        double pitchAngle = atan(G_py / G_px) * 180.0 / M_PI;
+        double rollAngle = atan(G_py / G_px) * 180.0 / M_PI;
 
         // Calcular o ângulo de roll (theta_xyz)
-        double rollAngle = atan(-G_px / sqrt(G_py * G_py + G_pz * G_pz)) * 180.0 / M_PI;
+        double pitchAngle = atan(-G_px / sqrt(G_py * G_py + G_pz * G_pz)) * 180.0 / M_PI;
         rollAngles.push_back(rollAngle);
         pitchAngles.push_back(pitchAngle);
     }

@@ -1,12 +1,13 @@
-#include "Acelerometro.h"
+#include "mainwindow.h"
+#include <QApplication>
 
-int main() {
-    Acelerometro acelerometro("/home/tiago/acelerometer/attitude_exam.log");
-    if (acelerometro.loadData()) {
-        acelerometro.calculateAngles();
-        //acelerometro.printData(); // Imprimir os dados lidos "DEBUG CHOICE"
-        acelerometro.saveResults("resultados.txt");
-    }
-    return 0;
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+
+    return a.exec();
 }
+
 
