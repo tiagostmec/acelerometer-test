@@ -112,6 +112,7 @@ Estrutura do Projeto:
     Acelerometro.h e Acelerometro.cpp: Classes e métodos relacionados ao processamento dos dados do acelerômetro.
 
 Como compilar e executar o software:
+
 Pré-requisitos:
 
     Qt Creator instalado versão 5 ou 6.
@@ -127,9 +128,10 @@ Passos:
         Abra o Qt Creator.
         Abra o projeto navegando até o diretório clonado.
         Abra o CMakeLists.txt do projeto.
-        Compile o projeto usando o Qt Creator.
+        Compile o projeto usando o Qt Creator. (Build)
 
     Executando o Software:
-        Após a compilação, execute o software diretamente do Qt Creator ou navegue até o diretório do executável gerado e execute-o.
+        Após a compilação, execute o software diretamente do Qt Creator. (Run)
+        Ou navegue até a pasta da build via prompt e utilize ./acelerometer
 
         
