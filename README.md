@@ -2,7 +2,8 @@
 
 ## **Descrição**
 
-Este software foi desenvolvido para processar e analisar dados de um acelerômetro. Ele oferece funcionalidades para selecionar um arquivo de log, escolher um local para salvar os resultados dos angulos pitch e roll e iniciar o processamento dos dados.
+Este software foi desenvolvido para processar e analisar dados de um acelerômetro. Ele oferece funcionalidades para selecionar um arquivo de log, escolher um local para salvar os resultados dos angulos pitch e roll e iniciar o processamento dos dados. Tarefa versionada em branch main com tags de releases.
+
 Como foi realizada esta tarefa:
 
 ## **Primeiro passo v0.1.0**
@@ -10,8 +11,8 @@ Como foi realizada esta tarefa:
 1. Estudo Preliminar
 
 Antes de iniciar o desenvolvimento, foi realizado um estudo sobre os princípios de funcionamento dos acelerômetros e o formato dos dados fornecidos pelo log. Esse estudo foi crucial para entender como interpretar e processar os dados brutos fornecidos pelo dispositivo.
-As equações para detecção foram utilizadas as equações 25 e 26 da bibliografia cedida pela Hexagon. 
-A equação 25 possui uma indeterminação, mas para debug inicial e facilidade de implementação foi utilizada ela, em versões posteriores seria necessário reavaliar essas contas.
+As equações 25 e 26 contidas na bibliografia cedida pela Hexagon, foram utilizadas para cálculo dos angulos pitch e roll.
+A equação 25 possui uma indeterminação, mas para debug inicial e facilidade de implementação ela foi utilizada ela. Em versões posteriores seria necessário reavaliar os cálculos.
 
 2. Desenvolvimento do Módulo de Processamento
 
@@ -32,9 +33,7 @@ Para validar o funcionamento correto dos módulos desenvolvidos, foi criado um p
 
 4. Pontos de Atenção
 
-    Fator de Escala: O código assume um fator de escala fixo para converter as leituras do acelerômetro em unidades de gravidade (g's). Em aplicações reais, este fator pode variar e deve ser calibrado adequadamente.
-
-   Ausência de Interface: Nesta versão inicial, não foi desenvolvida uma interface gráfica. Todos os parâmetros, como o caminho do arquivo de log e o nome do arquivo de saída, foram hardcoded no programa principal.
+   Ausência de Interface: Nesta versão inicial, não foi desenvolvida uma interface gráfica. Todos os parâmetros, como o caminho do arquivo de log e o nome do arquivo de saída, foram configurados como hardcoded no programa principal.
 
    Equações com indeterminação: Necessária troca da equação 25.
 
@@ -45,7 +44,9 @@ Este primeiro passo no desenvolvimento do software focou na criação de um mód
 ## **Segundo passo v0.2.0**
 
 O foco deste estágio foi na integração de uma interface de usuário (UI) e na revisão das equações de cálculo dos ângulos.
-Desenvolvimento da Interface de Usuário
+
+### Desenvolvimento da Interface de Usuário
+
 1. Ferramenta de Desenvolvimento
 
 Para a criação da interface de usuário, foi utilizado o Qt Designer, uma ferramenta gráfica fornecida pelo framework Qt, que permite a criação rápida e intuitiva de interfaces.
@@ -78,29 +79,30 @@ A integração da interface de usuário e a correção das equações de cálcul
 
 O foco desta etapa foi otimizar o código, corrigir equações e aprimorar a qualidade geral do software.
 
-Melhorias e Correções Realizadas
+### Melhorias e Correções Realizadas
 
 1. Refatoração e Limpeza do Código
 
-    Organização e Comentários: O código foi revisado para garantir uma estrutura mais limpa e compreensível. Foram adicionados comentários e documentação para facilitar a manutenção e compreensão do código.
+    Organização: O código foi revisado para garantir uma estrutura mais limpa e compreensível.
 
 2. Correção das Equações de Cálculo dos Ângulos
 
     Equação 25: Identificou-se uma indeterminação na Equação 25 original. Esta foi corrigida utilizando a Equação 38, que oferece uma solução mais precisa e confiável.
 
-    Termo de Sinal para GpzGpz​: Foi introduzido um termo de sinal para GpzGpz​ que pode ser 1 ou -1. Este termo foi adicionado para recuperar o sinal perdido de GpzGpz​ ao realizar a operação de raiz quadrada, garantindo resultados mais precisos.
+    Termo de Sinal para Gpz: Foi introduzido um termo de sinal para Gpz​ que pode ser 1 ou -1. Este termo foi adicionado para recuperar o sinal perdido de Gpz ao realizar a operação de raiz quadrada (sempre fica positivo se nao usar), garantindo resultados mais precisos.
 
-    Fator μμ: Um novo fator, μμ, foi introduzido no cálculo do ângulo de roll ϕϕ. Este fator, inicialmente definido como 0.01, foi utilizado para evitar a indeterminação no denominador da equação, proporcionando uma maior estabilidade e robustez aos cálculos.
+    Fator μ: Um novo fator, μ, foi introduzido no cálculo do ângulo de roll ϕ. Este fator, inicialmente definido como 0.01, foi utilizado para evitar a indeterminação no denominador da equação, proporcionando uma maior estabilidade e robustez aos cálculos.
 
 3. Resultados em TXT
 
-    Arquivo de Exemplo: O software gerou um arquivo de resultados em formato TXT contendo um exemplo de saída gerada pelo software. Este arquivo serve como um guia para os usuários, demonstrando o formato e conteúdo dos resultados gerados. E claro o resultado do teste o qual é pedido em enunciado.
+    Arquivo de resultados: O software gerou um arquivo de resultados em formato TXT contendo o resultado de saída gerada pelo software com base no log cedido pela Hexagon. Este arquivo serve como um guia para os usuários, demonstrando o formato e conteúdo dos resultados gerados.
+   No arquivo possui-se a informação de TimeStamp, Angulo de roll e angulo de pitch (ms, graus e graus). 
 
 ## **Estrutura final do projeto**
 
 Tecnologias Utilizadas:
 
-    Qt para a interface gráfica.
+    Qt para a interface gráfica e interface de desenvolvimento.
     C++ para a lógica de processamento.
     Git para o controle de versão.
 
@@ -115,20 +117,28 @@ Como compilar e executar o software:
 
 Pré-requisitos:
 
-    Qt Creator instalado versão 5 ou 6.
-    Compilador C++.
-    Bibliotecas e ferramentas de desenvolvimento Qt.
+    Qt 6.0 ou maior. (Testado com Qt 6.7.0-beta1 e 6.6.1) qt.io/download
+    Ubuntu 20.04
+    Bibliotecas e ferramentas de desenvolvimento Qt e compilador (todos vem na instalação do Qt)
+        QtCreator 12.0
+        QtDesign Studio 4.3.2
+        CMake 3.27.7
+        Ninja 1.10.2
+    Dependências necessárias
+        sudo apt-get install build-essential libgl1-mesa-dev
+     
 
 Passos:
 
     Clonando o Repositório:
-        Clone o repositório usando: git clone <url_do_repositorio>.
+        Clone o repositório usando: git clone https://github.com/tiagostmec/acelerometer-test.git
 
     Configurando e Compilando no Qt Creator:
         Abra o Qt Creator.
-        Abra o projeto navegando até o diretório clonado.
+        Selecione open project e navegue até o diretório clonado.
         Abra o CMakeLists.txt do projeto.
-        Compile o projeto usando o Qt Creator. (Build)
+        Compile o projeto usando o Qt Creator. Use o Build de releases.
+        Com isso o software está compilado e pode ser utilizado.
 
     Executando o Software:
         Após a compilação, execute o software diretamente do Qt Creator. (Run)
